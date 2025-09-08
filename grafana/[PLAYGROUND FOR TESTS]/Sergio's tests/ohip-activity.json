@@ -1,0 +1,649 @@
+{
+  "apiVersion": "dashboard.grafana.app/v0alpha1",
+  "kind": "Dashboard",
+  "metadata": {
+    "name": "cesc1jmmgao00e"
+  },
+  "spec": {
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "grafana",
+            "uid": "-- Grafana --"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations \u0026 Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "links": [],
+    "panels": [
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "ee55cp459sa9sd"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green"
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 3,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "enablePagination": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true
+        },
+        "pluginVersion": "11.6.0+security-01",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "ee55cp459sa9sd"
+            },
+            "disableTextWrap": false,
+            "editorMode": "builder",
+            "exemplar": false,
+            "expr": "ohip_activity",
+            "format": "table",
+            "fullMetaSearch": false,
+            "includeNullMetadata": true,
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "A",
+            "useBackend": false
+          }
+        ],
+        "title": "Activity",
+        "transformations": [
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "Time",
+                  "aliceHotelId",
+                  "aliceHotelName",
+                  "pmsHotelCode",
+                  "pmsUuid",
+                  "type",
+                  "Value"
+                ]
+              }
+            }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {},
+              "includeByName": {},
+              "indexByName": {},
+              "renameByName": {
+                "Time (lastNotNull)": "",
+                "Value (lastNotNull)": "Updates Count",
+                "aliceHotelId": "ALICE Hotel ID",
+                "aliceHotelName": "ALICE Hotel Name",
+                "pmsHotelCode": "PMS Hotel Code",
+                "pmsUuid": "UUID",
+                "type": "Type"
+              }
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "ee55cp459sa9sd"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green"
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 24,
+          "x": 0,
+          "y": 6
+        },
+        "id": 4,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "enablePagination": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "frameIndex": 1,
+          "showHeader": true
+        },
+        "pluginVersion": "11.6.0+security-01",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "ee55cp459sa9sd"
+            },
+            "disableTextWrap": false,
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "ohip_activity_time",
+            "format": "table",
+            "fullMetaSearch": false,
+            "includeNullMetadata": true,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "A",
+            "useBackend": false
+          }
+        ],
+        "title": "Last Update",
+        "transformations": [
+          {
+            "id": "calculateField",
+            "options": {
+              "alias": "Last Updated",
+              "binary": {
+                "left": {
+                  "matcher": {
+                    "id": "byName",
+                    "options": "Value"
+                  }
+                },
+                "operator": "*",
+                "right": {
+                  "fixed": "1000"
+                }
+              },
+              "mode": "binary",
+              "reduce": {
+                "reducer": "sum"
+              }
+            }
+          },
+          {
+            "id": "convertFieldType",
+            "options": {
+              "conversions": [
+                {
+                  "destinationType": "time",
+                  "targetField": "Last Updated"
+                }
+              ],
+              "fields": {}
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "Time",
+                  "aliceHotelId",
+                  "aliceHotelName",
+                  "pmsHotelCode",
+                  "pmsUuid",
+                  "type",
+                  "Value",
+                  "Last Updated"
+                ]
+              }
+            }
+          },
+          {
+            "id": "groupBy",
+            "options": {
+              "fields": {
+                "Last Updated": {
+                  "aggregations": [
+                    "lastNotNull"
+                  ],
+                  "operation": "aggregate"
+                },
+                "Value": {
+                  "aggregations": [
+                    "lastNotNull"
+                  ],
+                  "operation": "aggregate"
+                },
+                "aliceHotelId": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                },
+                "aliceHotelName": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                },
+                "pmsHotelCode": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                },
+                "pmsUuid": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                },
+                "type": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                }
+              }
+            }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "Time": true,
+                "Value": true,
+                "Value (lastNotNull)": true
+              },
+              "includeByName": {},
+              "indexByName": {
+                "Last Updated (lastNotNull)": 0,
+                "aliceHotelId": 1,
+                "aliceHotelName": 2,
+                "pmsHotelCode": 3,
+                "pmsUuid": 4,
+                "type": 5
+              },
+              "renameByName": {
+                "Last Updated (firstNotNull)": "Last Update",
+                "Last Updated (lastNotNull)": "Last Updated",
+                "Value": "",
+                "aliceHotelId": "Alice Hotel Id",
+                "aliceHotelName": "Alice Hotel Name",
+                "pmsHotelCode": "PMS Hotel Code",
+                "pmsUuid": "UUID",
+                "type": "Type"
+              }
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "ee55cp459sa9sd"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green"
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 24,
+          "x": 0,
+          "y": 12
+        },
+        "id": 6,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "enablePagination": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "frameIndex": 1,
+          "showHeader": true
+        },
+        "pluginVersion": "11.6.0+security-01",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "ee55cp459sa9sd"
+            },
+            "disableTextWrap": false,
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "ohip_activity_time",
+            "format": "table",
+            "fullMetaSearch": false,
+            "includeNullMetadata": true,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "A",
+            "useBackend": false
+          }
+        ],
+        "title": "Last Update",
+        "transformations": [
+          {
+            "id": "calculateField",
+            "options": {
+              "alias": "Last Updated",
+              "binary": {
+                "left": {
+                  "matcher": {
+                    "id": "byName",
+                    "options": "Value"
+                  }
+                },
+                "operator": "*",
+                "right": {
+                  "fixed": "1000"
+                }
+              },
+              "mode": "binary",
+              "reduce": {
+                "reducer": "sum"
+              }
+            }
+          },
+          {
+            "id": "convertFieldType",
+            "options": {
+              "conversions": [
+                {
+                  "destinationType": "time",
+                  "targetField": "Last Updated"
+                }
+              ],
+              "fields": {}
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "Time",
+                  "aliceHotelId",
+                  "aliceHotelName",
+                  "pmsHotelCode",
+                  "pmsUuid",
+                  "type",
+                  "Value",
+                  "Last Updated"
+                ]
+              }
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "loki",
+          "uid": "c7a89e16-1795-489a-b837-a179c7adbe55"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green"
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 7,
+          "w": 24,
+          "x": 0,
+          "y": 18
+        },
+        "id": 5,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true
+        },
+        "pluginVersion": "11.6.0+security-01",
+        "targets": [
+          {
+            "datasource": {
+              "type": "loki",
+              "uid": "c7a89e16-1795-489a-b837-a179c7adbe55"
+            },
+            "direction": "backward",
+            "editorMode": "builder",
+            "expr": "{service_name=\"ohip-pms-processor\", environment=\"stag\"} |= `Reservation updated` | json",
+            "queryType": "range",
+            "refId": "A"
+          }
+        ],
+        "title": "Last Update (Log)",
+        "transformations": [
+          {
+            "id": "extractFields",
+            "options": {
+              "delimiter": ",",
+              "source": "labels"
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "Time",
+                  "Line",
+                  "aliceHotelName",
+                  "uuid"
+                ]
+              }
+            }
+          },
+          {
+            "id": "extractFields",
+            "options": {
+              "delimiter": ",",
+              "format": "regexp",
+              "regExp": "/hotelId: (?\u003chotelId\u003e.*), hotelName: (?\u003chotelName\u003e.*), pmsHotelCode: (?\u003cpmsHotelCode\u003e\\d+)/",
+              "source": "Line"
+            }
+          },
+          {
+            "id": "groupBy",
+            "options": {
+              "fields": {
+                "Line": {
+                  "aggregations": [
+                    "firstNotNull"
+                  ],
+                  "operation": "aggregate"
+                },
+                "Time": {
+                  "aggregations": [
+                    "firstNotNull",
+                    "max"
+                  ],
+                  "operation": "aggregate"
+                },
+                "hotelId": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                },
+                "hotelName": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                },
+                "pmsHotelCode": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                },
+                "uuid": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                }
+              }
+            }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {},
+              "includeByName": {},
+              "indexByName": {
+                "Line (firstNotNull)": 6,
+                "Time (firstNotNull)": 0,
+                "Time (max)": 1,
+                "hotelId": 2,
+                "hotelName": 3,
+                "pmsHotelCode": 4,
+                "uuid": 5
+              },
+              "renameByName": {
+                "Line (firstNotNull)": "Log Line",
+                "Line (lastNotNull)": "Log Line",
+                "Time (firstNotNull)": "Last Update",
+                "Time (lastNotNull)": "Last Updated",
+                "Time (max)": "Last Updated (Max)",
+                "hotelId": "Alice Hotel Id",
+                "hotelName": "Alice Hotel Name",
+                "pmsHotelCode": "PMS Hotel Code",
+                "uuid": "UUID"
+              }
+            }
+          }
+        ],
+        "type": "table"
+      }
+    ],
+    "preload": false,
+    "schemaVersion": 41,
+    "tags": [],
+    "templating": {
+      "list": []
+    },
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "browser",
+    "title": "Ohip Activity"
+  }
+}

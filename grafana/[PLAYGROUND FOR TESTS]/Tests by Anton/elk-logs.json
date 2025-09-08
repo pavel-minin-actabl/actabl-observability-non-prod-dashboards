@@ -1,0 +1,308 @@
+{
+  "apiVersion": "dashboard.grafana.app/v0alpha1",
+  "kind": "Dashboard",
+  "metadata": {
+    "name": "RVaKL1D4k"
+  },
+  "spec": {
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "grafana",
+            "uid": "-- Grafana --"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations \u0026 Alerts",
+          "target": {
+            "limit": 100,
+            "matchAny": false,
+            "tags": [],
+            "type": "dashboard"
+          },
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "links": [],
+    "liveNow": false,
+    "panels": [
+      {
+        "datasource": {
+          "type": "zipkin",
+          "uid": "kTFrmtEVk"
+        },
+        "gridPos": {
+          "h": 13,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 4,
+        "targets": [
+          {
+            "datasource": {
+              "type": "zipkin",
+              "uid": "kTFrmtEVk"
+            },
+            "query": "$trace_id",
+            "refId": "A"
+          }
+        ],
+        "title": "Trace view for trace ID $trace_id",
+        "type": "traces"
+      },
+      {
+        "datasource": {
+          "type": "elasticsearch",
+          "uid": "RPm7C3f4k"
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 24,
+          "x": 0,
+          "y": 13
+        },
+        "id": 2,
+        "options": {
+          "dedupStrategy": "none",
+          "enableLogDetails": true,
+          "prettifyLogMessage": false,
+          "showCommonLabels": false,
+          "showLabels": false,
+          "showTime": true,
+          "sortOrder": "Descending",
+          "wrapLogMessage": true
+        },
+        "targets": [
+          {
+            "alias": "",
+            "bucketAggs": [],
+            "datasource": {
+              "type": "elasticsearch",
+              "uid": "RPm7C3f4k"
+            },
+            "metrics": [
+              {
+                "id": "1",
+                "settings": {
+                  "limit": "500"
+                },
+                "type": "logs"
+              }
+            ],
+            "query": "environment:\"$env\" AND (mdc.action:$trace_id OR action:$trace_id OR mdc.traceId:$trace_id OR mdc.trace_id:$trace_id)",
+            "refId": "A",
+            "timeField": "@timestamp"
+          }
+        ],
+        "title": "Logs with trace ID $trace_id",
+        "transformations": [
+          {
+            "id": "calculateField",
+            "options": {
+              "alias": "level",
+              "binary": {
+                "left": "priority",
+                "reducer": "sum"
+              },
+              "mode": "reduceRow",
+              "reduce": {
+                "include": [
+                  "priority"
+                ],
+                "reducer": "last"
+              },
+              "replaceFields": false
+            }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "_id": true,
+                "_index": true,
+                "_source": true,
+                "_type": true,
+                "agent.ephemeral_id": true,
+                "agent.hostname": true,
+                "agent.id": true,
+                "agent.name": true,
+                "agent.type": true,
+                "agent.version": true,
+                "container.id": true,
+                "container.image.name": true,
+                "container.runtime": true,
+                "context": true,
+                "ecs": true,
+                "environment": true,
+                "highlight": true,
+                "host.name": true,
+                "input.type": true,
+                "kubernetes.cluster.name": true,
+                "kubernetes.container.image": true,
+                "kubernetes.container.name": true,
+                "kubernetes.labels.k8s-app": true,
+                "kubernetes.namespace": true,
+                "kubernetes.namespace_labels.kubernetes_io/metadata_name": true,
+                "kubernetes.node.hostname": true,
+                "kubernetes.node.labels.failure-domain_beta_kubernetes_io/zone": true,
+                "kubernetes.node.labels.topology_ebs_csi_aws_com/zone": true,
+                "kubernetes.node.labels.topology_kubernetes_io/zone": true,
+                "kubernetes.node.name": true,
+                "kubernetes.replicaset.name": true,
+                "log.file.path": true,
+                "log.offset": true,
+                "message": false,
+                "role": false,
+                "sort": true,
+                "stream": true,
+                "timestamp": true
+              },
+              "indexByName": {
+                "@timestamp": 0,
+                "_id": 4,
+                "_index": 5,
+                "_source": 6,
+                "_type": 7,
+                "agent.ephemeral_id": 8,
+                "agent.hostname": 9,
+                "agent.id": 10,
+                "agent.name": 11,
+                "agent.type": 12,
+                "agent.version": 13,
+                "application": 14,
+                "container.id": 15,
+                "container.image.name": 16,
+                "container.runtime": 17,
+                "context": 18,
+                "ecs": 19,
+                "environment": 20,
+                "highlight": 21,
+                "host.name": 22,
+                "input.type": 23,
+                "kubernetes.cluster.name": 24,
+                "kubernetes.container.image": 25,
+                "kubernetes.container.name": 26,
+                "kubernetes.labels.k8s-app": 27,
+                "kubernetes.namespace": 28,
+                "kubernetes.namespace_labels.kubernetes_io/metadata_name": 29,
+                "kubernetes.node.hostname": 30,
+                "kubernetes.node.labels.failure-domain_beta_kubernetes_io/zone": 31,
+                "kubernetes.node.labels.topology_ebs_csi_aws_com/zone": 32,
+                "kubernetes.node.labels.topology_kubernetes_io/zone": 33,
+                "kubernetes.node.name": 34,
+                "kubernetes.pod.name": 35,
+                "kubernetes.replicaset.name": 36,
+                "level": 44,
+                "log.file.path": 37,
+                "log.offset": 38,
+                "logger": 3,
+                "mdc.spanId": 45,
+                "mdc.span_id": 47,
+                "mdc.traceId": 46,
+                "mdc.trace_flags": 48,
+                "mdc.trace_id": 49,
+                "message": 1,
+                "priority": 39,
+                "role": 2,
+                "sort": 40,
+                "stream": 41,
+                "thread": 42,
+                "timestamp": 43
+              },
+              "renameByName": {}
+            }
+          }
+        ],
+        "transparent": true,
+        "type": "logs"
+      }
+    ],
+    "refresh": "",
+    "schemaVersion": 37,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+      "list": [
+        {
+          "current": {
+            "selected": false,
+            "text": "int0",
+            "value": "int0"
+          },
+          "hide": 0,
+          "includeAll": false,
+          "label": "Env",
+          "multi": false,
+          "name": "env",
+          "options": [
+            {
+              "selected": true,
+              "text": "int0",
+              "value": "int0"
+            },
+            {
+              "selected": false,
+              "text": "stag",
+              "value": "stag"
+            },
+            {
+              "selected": false,
+              "text": "htfx",
+              "value": "htfx"
+            },
+            {
+              "selected": false,
+              "text": "prod",
+              "value": "prod"
+            },
+            {
+              "selected": false,
+              "text": "ent1",
+              "value": "ent1"
+            }
+          ],
+          "query": "int0, stag, htfx, prod, ent1",
+          "queryValue": "",
+          "skipUrlSync": false,
+          "type": "custom"
+        },
+        {
+          "current": {
+            "selected": false,
+            "text": "62d4a8ddc1c8eebcc6155e9dee18b197",
+            "value": "62d4a8ddc1c8eebcc6155e9dee18b197"
+          },
+          "hide": 0,
+          "label": "Trace ID",
+          "name": "trace_id",
+          "options": [
+            {
+              "selected": true,
+              "text": "62d4a8ddc1c8eebcc6155e9dee18b197",
+              "value": "62d4a8ddc1c8eebcc6155e9dee18b197"
+            }
+          ],
+          "query": "62d4a8ddc1c8eebcc6155e9dee18b197",
+          "skipUrlSync": false,
+          "type": "textbox"
+        }
+      ]
+    },
+    "time": {
+      "from": "now-2d",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "",
+    "title": "ELK Logs",
+    "weekStart": ""
+  }
+}

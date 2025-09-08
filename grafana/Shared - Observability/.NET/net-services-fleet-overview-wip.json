@@ -1,0 +1,334 @@
+{
+  "apiVersion": "dashboard.grafana.app/v0alpha1",
+  "kind": "Dashboard",
+  "metadata": {
+    "name": "bea9lyx0eof0gc"
+  },
+  "spec": {
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "grafana",
+            "uid": "-- Grafana --"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations \u0026 Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "links": [],
+    "panels": [
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "ee55cp459sa9sd"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "inspect": false,
+              "minWidth": 50
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Service"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Drill down to ${__field.name} ${__value.text}",
+                      "url": "d/dea9pxx4bjls0f?var-service=${__data.fields.Service}\u0026var-env=${env}\u0026${__url_time_range}"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Rate"
+              },
+              "properties": [
+                {
+                  "id": "unit",
+                  "value": "reqpm"
+                },
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "blue",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Duration, AVG"
+              },
+              "properties": [
+                {
+                  "id": "unit",
+                  "value": "s"
+                },
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "light-purple",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Errors"
+              },
+              "properties": [
+                {
+                  "id": "unit",
+                  "value": "percentunit"
+                },
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "red",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 18,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 1,
+        "options": {
+          "cellHeight": "md",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "11.3.1",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "ee55cp459sa9sd"
+            },
+            "disableTextWrap": false,
+            "editorMode": "code",
+            "expr": "sum by(service_name) (rate(http_server_request_duration_seconds_count{telemetry_sdk_language=\"dotnet\", env=\"$env\", legacy_brand=\"$brand\"}[5m])) * 60",
+            "fullMetaSearch": false,
+            "includeNullMetadata": true,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "Rate",
+            "useBackend": false
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "ee55cp459sa9sd"
+            },
+            "disableTextWrap": false,
+            "editorMode": "code",
+            "expr": "sum by(service_name) (increase(http_server_request_duration_seconds_sum{env=\"$env\", telemetry_sdk_language=\"dotnet\", legacy_brand=\"$brand\"}[5m])) / sum by(service_name) (increase(http_server_request_duration_seconds_count{env=\"$env\", telemetry_sdk_language=\"dotnet\", legacy_brand=\"$brand\"}[5m]))",
+            "fullMetaSearch": false,
+            "hide": false,
+            "includeNullMetadata": true,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "Duration",
+            "useBackend": false
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "ee55cp459sa9sd"
+            },
+            "disableTextWrap": false,
+            "editorMode": "code",
+            "expr": "sum by(service_name) (increase(http_server_request_duration_seconds_count{telemetry_sdk_language=\"dotnet\", env=\"$env\", legacy_brand=\"$brand\", http_response_status_code=~\"5..\"}[5m]))\n/\nsum by(service_name) (increase(http_server_request_duration_seconds_count{telemetry_sdk_language=\"dotnet\", env=\"$env\", legacy_brand=\"$brand\"}[5m]))",
+            "fullMetaSearch": false,
+            "hide": false,
+            "includeNullMetadata": true,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "Errors",
+            "useBackend": false
+          }
+        ],
+        "title": "Fleet overview",
+        "transformations": [
+          {
+            "id": "timeSeriesTable",
+            "options": {
+              "A": {
+                "timeField": "Time"
+              },
+              "Duration": {
+                "timeField": "Time"
+              },
+              "Errors": {
+                "stat": "lastNotNull",
+                "timeField": "Time"
+              },
+              "Rate": {
+                "stat": "lastNotNull",
+                "timeField": "Time"
+              }
+            }
+          },
+          {
+            "id": "joinByField",
+            "options": {
+              "byField": "service_name",
+              "mode": "outer"
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "byVariable": false,
+              "include": {
+                "names": [
+                  "service_name",
+                  "Trend #Rate",
+                  "Trend #Duration",
+                  "Trend #Errors"
+                ]
+              }
+            }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "__name__": false
+              },
+              "includeByName": {},
+              "indexByName": {
+                "Trend #Duration": 3,
+                "Trend #Errors": 2,
+                "Trend #Rate": 1,
+                "service_name": 0
+              },
+              "renameByName": {
+                "Trend #Duration": "Duration, AVG",
+                "Trend #Errors": "Errors",
+                "Trend #Rate": "Rate",
+                "service_name": "Service",
+                "telemetry_sdk_version": "OTel SDK"
+              }
+            }
+          }
+        ],
+        "type": "table"
+      }
+    ],
+    "preload": false,
+    "refresh": "30s",
+    "schemaVersion": 40,
+    "tags": [
+      "dotnet"
+    ],
+    "templating": {
+      "list": [
+        {
+          "current": {
+            "text": "Production",
+            "value": "Production"
+          },
+          "definition": "label_values(http_server_request_duration_seconds_count{telemetry_sdk_language=\"dotnet\"},env)",
+          "label": "Environment",
+          "name": "env",
+          "options": [],
+          "query": {
+            "qryType": 1,
+            "query": "label_values(http_server_request_duration_seconds_count{telemetry_sdk_language=\"dotnet\"},env)",
+            "refId": "PrometheusVariableQueryEditor-VariableQuery"
+          },
+          "refresh": 1,
+          "regex": "",
+          "type": "query"
+        },
+        {
+          "current": {
+            "text": "PS",
+            "value": "PS"
+          },
+          "label": "Brand",
+          "name": "brand",
+          "options": [
+            {
+              "selected": false,
+              "text": "TR",
+              "value": "TR"
+            },
+            {
+              "selected": true,
+              "text": "PS",
+              "value": "PS"
+            }
+          ],
+          "query": "PS, TR",
+          "type": "custom"
+        }
+      ]
+    },
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "utc",
+    "title": ".NET services fleet overview [WIP]",
+    "weekStart": ""
+  }
+}

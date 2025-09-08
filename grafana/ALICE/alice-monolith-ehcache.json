@@ -1,0 +1,397 @@
+{
+  "apiVersion": "dashboard.grafana.app/v0alpha1",
+  "kind": "Dashboard",
+  "metadata": {
+    "name": "e13eb682-9568-4e7f-9229-5e953b001acb"
+  },
+  "spec": {
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "grafana",
+            "uid": "-- Grafana --"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations \u0026 Alerts",
+          "target": {
+            "limit": 100,
+            "matchAny": false,
+            "tags": [],
+            "type": "dashboard"
+          },
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 1,
+    "links": [
+      {
+        "asDropdown": false,
+        "icon": "dashboard",
+        "includeVars": false,
+        "keepTime": false,
+        "tags": [],
+        "targetBlank": true,
+        "title": "GC metrics (NR)",
+        "tooltip": "",
+        "type": "link",
+        "url": "https://one.newrelic.com/dashboards/detail/NDE1MzQ0fFZJWnxEQVNIQk9BUkR8MjgwNzI3?account=415344\u0026state=a369a2d7-d9ea-2df5-265d-6ed852afa44d"
+      },
+      {
+        "asDropdown": false,
+        "icon": "dashboard",
+        "includeVars": false,
+        "keepTime": false,
+        "tags": [],
+        "targetBlank": true,
+        "title": "alice-web APM (NR)",
+        "tooltip": "",
+        "type": "link",
+        "url": "https://one.newrelic.com/nr1-core/apm-features/overview/NDE1MzQ0fEFQTXxBUFBMSUNBVElPTnwxODg0Mzk2Mw?account=415344\u0026duration=1800000\u0026filters=%28domain%20IN%20%28%27APM%27%2C%20%27EXT%27%29%20AND%20type%20IN%20%28%27APPLICATION%27%2C%20%27SERVICE%27%29%29%20AND%20%28name%20LIKE%20%27alice-platform%27%20OR%20id%20%3D%20%27alice-platform%27%20OR%20domainId%20%3D%20%27alice-platform%27%29\u0026state=bbac2568-3fe0-6545-d4dc-06b180e66f86"
+      },
+      {
+        "asDropdown": false,
+        "icon": "dashboard",
+        "includeVars": false,
+        "keepTime": false,
+        "tags": [],
+        "targetBlank": true,
+        "title": "logs.aliceapp.com",
+        "tooltip": "",
+        "type": "link",
+        "url": "https://logs.aliceapp.com/_dashboards/app/discover/#/?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:now-15m,to:now))\u0026_a=(columns:!(environment,role,priority,message,action),filters:!(),index:d05ec0b0-9b6b-11ed-9802-5b0afc46f714,interval:auto,query:(language:kuery,query:'environment:prod'),sort:!())"
+      },
+      {
+        "asDropdown": false,
+        "icon": "dashboard",
+        "includeVars": false,
+        "keepTime": false,
+        "tags": [],
+        "targetBlank": true,
+        "title": "AWS Perf Insights",
+        "tooltip": "",
+        "type": "link",
+        "url": "https://us-east-1.console.aws.amazon.com/rds/home?region=us-east-1#performance-insights-v20206:/resourceId/db-VEPSN6VA4FELP75VCPK2PZ5HNA/resourceName/prod-aliceapp-57-2/startTime/1686133817794/endTime/1686137417794/presetKey/1h/presetAmount/1/presetUnit/hour"
+      }
+    ],
+    "liveNow": false,
+    "panels": [
+      {
+        "collapsed": true,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 299,
+        "panels": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "T0EL4G7Vz"
+            },
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "continuous-RdYlGr"
+                },
+                "mappings": [],
+                "min": 0,
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "red",
+                      "value": null
+                    },
+                    {
+                      "color": "orange",
+                      "value": 0.25
+                    },
+                    {
+                      "color": "yellow",
+                      "value": 0.5
+                    },
+                    {
+                      "color": "green",
+                      "value": 0.75
+                    }
+                  ]
+                },
+                "unit": "percentunit"
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 8,
+              "w": 6,
+              "x": 0,
+              "y": 1
+            },
+            "id": 300,
+            "options": {
+              "orientation": "horizontal",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "showThresholdLabels": false,
+              "showThresholdMarkers": false
+            },
+            "pluginVersion": "10.0.1",
+            "repeat": "cache_name",
+            "repeatDirection": "h",
+            "targets": [
+              {
+                "datasource": {
+                  "type": "prometheus",
+                  "uid": "T0EL4G7Vz"
+                },
+                "editorMode": "code",
+                "expr": "avg (net_sf_ehcache_cachestatistics_objectcount{pod=~\"$pod\", cachemanager=\"__DEFAULT__\", name=~\"$cache_name\"} / net_sf_ehcache_cacheconfiguration_maxelementsinmemory{pod=~\"$pod\", cachemanager=\"__DEFAULT__\", name=~\"$cache_name\"})",
+                "instant": false,
+                "legendFormat": "{{pod}} - {{name}}",
+                "range": true,
+                "refId": "A"
+              }
+            ],
+            "title": "${cache_name} utilization",
+            "type": "gauge"
+          }
+        ],
+        "title": "Size statistics",
+        "type": "row"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 1
+        },
+        "id": 298,
+        "panels": [],
+        "title": "Hits statistics",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "T0EL4G7Vz"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "continuous-RdYlGr"
+            },
+            "custom": {
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "scheme",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "max": 1,
+            "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red",
+                  "value": null
+                },
+                {
+                  "color": "orange",
+                  "value": 0.25
+                },
+                {
+                  "color": "yellow",
+                  "value": 0.5
+                },
+                {
+                  "color": "green",
+                  "value": 0.75
+                }
+              ]
+            },
+            "unit": "percentunit"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 6,
+          "x": 0,
+          "y": 2
+        },
+        "id": 2,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "repeat": "cache_name",
+        "repeatDirection": "h",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "T0EL4G7Vz"
+            },
+            "editorMode": "code",
+            "expr": "net_sf_ehcache_cachestatistics_cachehitpercentage{pod=~\"$pod\", cachemanager=\"__DEFAULT__\", name=~\"$cache_name\"}",
+            "instant": false,
+            "legendFormat": "{{pod}} - {{name}}",
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "${cache_name} hits, %",
+        "type": "timeseries"
+      }
+    ],
+    "refresh": "",
+    "schemaVersion": 38,
+    "style": "dark",
+    "tags": [
+      "alice",
+      "monolith",
+      "ehcache"
+    ],
+    "templating": {
+      "list": [
+        {
+          "current": {
+            "selected": false,
+            "text": "prod",
+            "value": "prod"
+          },
+          "hide": 0,
+          "includeAll": false,
+          "label": "Zone",
+          "multi": false,
+          "name": "zone",
+          "options": [
+            {
+              "selected": true,
+              "text": "prod",
+              "value": "prod"
+            },
+            {
+              "selected": false,
+              "text": "ent1",
+              "value": "ent1"
+            }
+          ],
+          "query": "prod,ent1",
+          "queryValue": "",
+          "skipUrlSync": false,
+          "type": "custom"
+        },
+        {
+          "current": {
+            "selected": false,
+            "text": "All",
+            "value": "$__all"
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "T0EL4G7Vz"
+          },
+          "definition": "label_values(jmx_scrape_duration_seconds,pod)",
+          "hide": 0,
+          "includeAll": true,
+          "label": "Pod",
+          "multi": false,
+          "name": "pod",
+          "options": [],
+          "query": {
+            "query": "label_values(jmx_scrape_duration_seconds,pod)",
+            "refId": "PrometheusVariableQueryEditor-VariableQuery"
+          },
+          "refresh": 2,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 5,
+          "type": "query"
+        },
+        {
+          "current": {
+            "selected": true,
+            "text": "All",
+            "value": "$__all"
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "T0EL4G7Vz"
+          },
+          "definition": "label_values(net_sf_ehcache_cachestatistics_cachehitpercentage,name)",
+          "hide": 0,
+          "includeAll": true,
+          "multi": false,
+          "name": "cache_name",
+          "options": [],
+          "query": {
+            "query": "label_values(net_sf_ehcache_cachestatistics_cachehitpercentage,name)",
+            "refId": "PrometheusVariableQueryEditor-VariableQuery"
+          },
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 1,
+          "type": "query"
+        }
+      ]
+    },
+    "time": {
+      "from": "now-3h",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "utc",
+    "title": "ALICE Monolith - EHCache",
+    "weekStart": "monday"
+  }
+}

@@ -1,0 +1,591 @@
+{
+  "apiVersion": "dashboard.grafana.app/v0alpha1",
+  "kind": "Dashboard",
+  "metadata": {
+    "name": "java-services-fleet-overview"
+  },
+  "spec": {
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "enable": false,
+          "filter": {
+            "exclude": false,
+            "ids": [
+              4
+            ]
+          },
+          "hide": true,
+          "iconColor": "orange",
+          "name": "Annotations \u0026 Alerts",
+          "tagsField": "involvedObject.labels.name",
+          "target": {
+            "limit": 100,
+            "matchAny": false,
+            "query": "involvedObject.namespace:$namespace AND type:Warning AND reason:Unhealthy",
+            "tags": [],
+            "type": "dashboard"
+          },
+          "textField": "message",
+          "timeEndField": "",
+          "timeField": "firstTimestamp",
+          "type": "dashboard"
+        },
+        {
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "9Pm7CqB4z"
+          },
+          "enable": false,
+          "hide": true,
+          "iconColor": "orange",
+          "name": "Readiness \u0026 Liveness robe failures",
+          "tagsField": "",
+          "target": {
+            "query": "involvedObject.labels.name:\"$service\" AND involvedObject.namespace:$namespace AND type:Warning AND message:\"probe failed\" AND NOT message:\"Startup probe failed\"",
+            "refId": "annotation_query"
+          },
+          "textField": "message",
+          "timeField": "firstTimestamp"
+        },
+        {
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "9Pm7CqB4z"
+          },
+          "enable": false,
+          "hide": true,
+          "iconColor": "blue",
+          "name": "Scaling UP events",
+          "tagsField": "",
+          "target": {
+            "query": "involvedObject.kind:\"HorizontalPodAutoscaler\" AND involvedObject.namespace:$namespace AND involvedObject.name:\"$service\" AND NOT message:\"All metrics below target\"",
+            "refId": "annotation_query"
+          },
+          "textField": "message",
+          "timeField": "metadata.creationTimestamp"
+        },
+        {
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "9Pm7CqB4z"
+          },
+          "enable": false,
+          "hide": true,
+          "iconColor": "green",
+          "name": "Scaling DOWN events",
+          "tagsField": "",
+          "target": {
+            "query": "involvedObject.kind:\"HorizontalPodAutoscaler\" AND involvedObject.namespace:$namespace AND involvedObject.name:\"$service\" AND message:\"below\"",
+            "refId": "annotation_query"
+          },
+          "textField": "message",
+          "timeField": "metadata.creationTimestamp"
+        }
+      ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 2,
+    "links": [],
+    "liveNow": true,
+    "panels": [
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "ee55cp459sa9sd"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "left",
+              "cellOptions": {
+                "type": "auto",
+                "wrapText": false
+              },
+              "filterable": false,
+              "inspect": false,
+              "minWidth": 200
+            },
+            "mappings": [],
+            "noValue": "-",
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green"
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Service"
+              },
+              "properties": [
+                {
+                  "id": "custom.filterable",
+                  "value": false
+                },
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Drill down to ${__field.name} ${__value.text}",
+                      "url": "d/java-service-details-otel?var-service=${__data.fields.Service}\u0026var-namespace=${namespace}\u0026${__url_time_range}"
+                    }
+                  ]
+                },
+                {
+                  "id": "custom.width",
+                  "value": 257
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "JVM"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 150
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Instances"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "green",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Rate"
+              },
+              "properties": [
+                {
+                  "id": "unit",
+                  "value": "reqpm"
+                },
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "blue",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Uptime"
+              },
+              "properties": [
+                {
+                  "id": "unit",
+                  "value": "s"
+                },
+                {
+                  "id": "custom.width",
+                  "value": 120
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Duration, AVG"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "light-orange",
+                    "mode": "fixed"
+                  }
+                },
+                {
+                  "id": "unit",
+                  "value": "s"
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "App version"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 200
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Errors"
+              },
+              "properties": [
+                {
+                  "id": "unit",
+                  "value": "percentunit"
+                },
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "red",
+                    "mode": "fixed"
+                  }
+                },
+                {
+                  "id": "custom.cellOptions",
+                  "value": {
+                    "type": "auto",
+                    "wrapText": false
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 26,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 15,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "11.6.0+security-01",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "ee55cp459sa9sd"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "sum by (job) (increase(http_server_request_duration_count{environment=\"$namespace\", domain=~\"$domain|\", team=~\"$team|\"}[$__rate_interval]))\n\nor \n\nlabel_replace(\n    sum by (service) (increase(http_server_requests_seconds_count{namespace=\"$namespace\"}[$__rate_interval])), \n    \"job\", \"$1\", \"service\", \"(.+)\"\n)",
+            "format": "time_series",
+            "hide": false,
+            "instant": false,
+            "interval": "",
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "Rate"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "ee55cp459sa9sd"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "sum by(job) (increase(http_server_request_duration_sum{environment=\"$namespace\", domain=~\"$domain|\", team=~\"$team|\"}[$__rate_interval])) / \nsum by(job) (increase(http_server_request_duration_count{environment=\"$namespace\", domain=~\"$domain|\", team=~\"$team|\"}[$__rate_interval]))\n\nor \n\nlabel_replace(\n    sum by(service) (increase(http_server_requests_seconds_sum{namespace=\"$namespace\"}[$__rate_interval])) / \n    sum by(service) (increase(http_server_requests_seconds_count{namespace=\"$namespace\"}[$__rate_interval])), \n    \"job\", \"$1\", \"service\", \"(.+)\"\n)",
+            "format": "time_series",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "Duration"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "ee55cp459sa9sd"
+            },
+            "disableTextWrap": false,
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "count by (job, process_runtime_version) (target_info{environment=\"$namespace\", domain=~\"$domain|\", team=~\"$team|\"})\n\nor \n\nlabel_replace(\n    label_replace(\n        count by (service, version) (jvm_info{namespace=\"$namespace\"}), \n        \"job\", \"$1\", \"service\", \"(.+)\"), \n    \"process_runtime_version\", \"$1\", \"version\", \"(.+)\"\n)",
+            "format": "time_series",
+            "fullMetaSearch": false,
+            "hide": false,
+            "includeNullMetadata": true,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "Java",
+            "useBackend": false
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "ee55cp459sa9sd"
+            },
+            "disableTextWrap": false,
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "count by (job, container_image_tag) (target_info{environment=\"$namespace\", domain=~\"$domain|\", team=~\"$team|\"})",
+            "format": "time_series",
+            "fullMetaSearch": false,
+            "hide": false,
+            "includeNullMetadata": true,
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "App Version",
+            "useBackend": false
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "ee55cp459sa9sd"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "sum by (job) (increase(http_server_request_duration_count{environment=\"$namespace\", domain=~\"$domain|\", team=~\"$team|\", http_response_status_code=~\"[345].+\"}[$__rate_interval]))\n/\nsum by (job) (increase(http_server_request_duration_count{environment=\"$namespace\", domain=~\"$domain|\", team=~\"$team|\"}[$__rate_interval]))",
+            "format": "time_series",
+            "hide": false,
+            "instant": false,
+            "interval": "",
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "Errors"
+          }
+        ],
+        "title": "Fleet overview",
+        "transformations": [
+          {
+            "id": "timeSeriesTable",
+            "options": {
+              "App Version": {
+                "timeField": ""
+              },
+              "Errors": {
+                "timeField": "Time"
+              },
+              "Java": {
+                "stat": "lastNotNull",
+                "timeField": ""
+              },
+              "Latency": {
+                "stat": "lastNotNull",
+                "timeField": ""
+              },
+              "Throughput": {
+                "stat": "lastNotNull",
+                "timeField": "Time"
+              },
+              "Uptime": {
+                "timeField": ""
+              }
+            }
+          },
+          {
+            "id": "joinByField",
+            "options": {
+              "byField": "job",
+              "mode": "outer"
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "job",
+                  "Trend #Duration",
+                  "process_runtime_version",
+                  "Trend #Java",
+                  "container_image_tag",
+                  "Trend #Rate"
+                ]
+              }
+            }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "Time": true,
+                "Time 1": true,
+                "Time 2": true,
+                "Time 3": true,
+                "Time 4": true,
+                "Trend #Latency": false,
+                "Trend #Uptime": false,
+                "Value": false,
+                "__name__": true,
+                "application": true,
+                "container": true,
+                "endpoint": true,
+                "env": true,
+                "instance": true,
+                "job": false,
+                "namespace": true,
+                "pod": false,
+                "runtime": true,
+                "service": false,
+                "service 3": false,
+                "service_name": true,
+                "vendor": true
+              },
+              "includeByName": {},
+              "indexByName": {
+                "Trend #Duration": 2,
+                "Trend #Java": 3,
+                "Trend #Rate": 1,
+                "container_image_tag": 5,
+                "job": 0,
+                "process_runtime_version": 4
+              },
+              "renameByName": {
+                "Time": "",
+                "Time 2": "",
+                "Trend #App Version": "App Version",
+                "Trend #Duration": "Duration, AVG",
+                "Trend #Errors": "Errors",
+                "Trend #Java": "Instances",
+                "Trend #Latency": "Latency, Avg",
+                "Trend #Rate": "Rate",
+                "Trend #Throughput": "Throughput",
+                "Trend #Uptime": "Uptime",
+                "Value": "Pod count",
+                "Value #A": "Pod Count",
+                "Value #B": "Throughput",
+                "Value #JVM Info": "Pod Count",
+                "Value #Java": "Pods",
+                "Value #Latency": "Latency",
+                "Value #Throughput": "Throughput",
+                "Value #Unptime": "Uptime",
+                "Value #Uptime": "Uptime",
+                "application": "Service",
+                "container_image_tag": "App version",
+                "job": "Service",
+                "process_runtime_version": "JVM",
+                "service": "Service",
+                "version": "Java version"
+              }
+            }
+          }
+        ],
+        "type": "table"
+      }
+    ],
+    "preload": false,
+    "refresh": "30s",
+    "schemaVersion": 41,
+    "tags": [
+      "java"
+    ],
+    "templating": {
+      "list": [
+        {
+          "allowCustomValue": false,
+          "current": {
+            "text": "stag",
+            "value": "stag"
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "ee55cp459sa9sd"
+          },
+          "definition": "label_values(target_info,environment)",
+          "includeAll": false,
+          "label": "Namespace",
+          "name": "namespace",
+          "options": [],
+          "query": {
+            "qryType": 1,
+            "query": "label_values(target_info,environment)",
+            "refId": "PrometheusVariableQueryEditor-VariableQuery"
+          },
+          "refresh": 1,
+          "regex": "",
+          "type": "query"
+        },
+        {
+          "current": {
+            "text": "All",
+            "value": "$__all"
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "ee55cp459sa9sd"
+          },
+          "definition": "label_values(target_info{environment=\"$namespace\"},domain)",
+          "includeAll": true,
+          "label": "Domain (WIP)",
+          "name": "domain",
+          "options": [],
+          "query": {
+            "qryType": 1,
+            "query": "label_values(target_info{environment=\"$namespace\"},domain)",
+            "refId": "PrometheusVariableQueryEditor-VariableQuery"
+          },
+          "refresh": 1,
+          "regex": "",
+          "type": "query"
+        },
+        {
+          "current": {
+            "text": "All",
+            "value": "$__all"
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "ee55cp459sa9sd"
+          },
+          "definition": "label_values(target_info{environment=\"$namespace\"},team)",
+          "includeAll": true,
+          "label": "Team (WIP)",
+          "name": "team",
+          "options": [],
+          "query": {
+            "qryType": 1,
+            "query": "label_values(target_info{environment=\"$namespace\"},team)",
+            "refId": "PrometheusVariableQueryEditor-VariableQuery"
+          },
+          "refresh": 1,
+          "regex": "",
+          "type": "query"
+        }
+      ]
+    },
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "Europe/Athens",
+    "title": "Java services fleet overview [V2, WIP]"
+  }
+}
