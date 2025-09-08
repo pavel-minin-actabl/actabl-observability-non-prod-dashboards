@@ -1,0 +1,3 @@
+[submodule "grafana/Shared"]
+	path = grafana/Shared
+	url = https://github.com/pavel-minin-actabl/actabl-observability-shared-dashboards
