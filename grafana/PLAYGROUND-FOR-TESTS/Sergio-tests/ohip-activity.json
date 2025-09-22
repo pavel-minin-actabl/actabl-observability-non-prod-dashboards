@@ -667,56 +667,7 @@
               ]
             }
           },
-          "overrides": [
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "__error__"
-              },
-              "properties": [
-                {
-                  "id": "custom.width",
-                  "value": 191
-                }
-              ]
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "Line"
-              },
-              "properties": [
-                {
-                  "id": "custom.width",
-                  "value": 322
-                }
-              ]
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "__error_details__"
-              },
-              "properties": [
-                {
-                  "id": "custom.width",
-                  "value": 385
-                }
-              ]
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "scope_name"
-              },
-              "properties": [
-                {
-                  "id": "custom.width",
-                  "value": 399
-                }
-              ]
-            }
-          ]
+          "overrides": []
         },
         "gridPos": {
           "h": 7,
@@ -735,8 +686,7 @@
             ],
             "show": false
           },
-          "showHeader": true,
-          "sortBy": []
+          "showHeader": true
         },
         "pluginVersion": "12.1.0",
         "targets": [
@@ -747,7 +697,7 @@
             },
             "direction": "backward",
             "editorMode": "builder",
-            "expr": "{service_name=\"ohip-pms-processor\", environment=\"stag\"} |= `Data updated on Alice; action: ` | json",
+            "expr": "{service_name=\"ohip-pms-processor\", environment=\"stag\"} |= `Reservation updated` | json",
             "queryType": "range",
             "refId": "A"
           }
@@ -768,13 +718,81 @@
                 "names": [
                   "Time",
                   "Line",
-                  "labelTypes",
-                  "aliceConnectionUuid",
-                  "aliceHotelId",
                   "aliceHotelName",
-                  "observed_timestamp",
-                  "pmsHotelCode"
+                  "uuid"
                 ]
+              }
+            }
+          },
+          {
+            "id": "extractFields",
+            "options": {
+              "delimiter": ",",
+              "format": "regexp",
+              "regExp": "/hotelId: (?\u003chotelId\u003e.*), hotelName: (?\u003chotelName\u003e.*), pmsHotelCode: (?\u003cpmsHotelCode\u003e\\d+)/",
+              "source": "Line"
+            }
+          },
+          {
+            "id": "groupBy",
+            "options": {
+              "fields": {
+                "Line": {
+                  "aggregations": [
+                    "firstNotNull"
+                  ],
+                  "operation": "aggregate"
+                },
+                "Time": {
+                  "aggregations": [
+                    "firstNotNull",
+                    "max"
+                  ],
+                  "operation": "aggregate"
+                },
+                "hotelId": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                },
+                "hotelName": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                },
+                "pmsHotelCode": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                },
+                "uuid": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                }
+              }
+            }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {},
+              "includeByName": {},
+              "indexByName": {
+                "Line (firstNotNull)": 6,
+                "Time (firstNotNull)": 0,
+                "Time (max)": 1,
+                "hotelId": 2,
+                "hotelName": 3,
+                "pmsHotelCode": 4,
+                "uuid": 5
+              },
+              "renameByName": {
+                "Line (firstNotNull)": "Log Line",
+                "Line (lastNotNull)": "Log Line",
+                "Time (firstNotNull)": "Last Update",
+                "Time (lastNotNull)": "Last Updated",
+                "Time (max)": "Last Updated (Max)",
+                "hotelId": "Alice Hotel Id",
+                "hotelName": "Alice Hotel Name",
+                "pmsHotelCode": "PMS Hotel Code",
+                "uuid": "UUID"
               }
             }
           }
@@ -892,7 +910,7 @@
       "list": []
     },
     "time": {
-      "from": "now-15m",
+      "from": "now-1h",
       "to": "now"
     },
     "timepicker": {},
