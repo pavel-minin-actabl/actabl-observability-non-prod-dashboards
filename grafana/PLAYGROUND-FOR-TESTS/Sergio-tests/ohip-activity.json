@@ -637,6 +637,152 @@
       },
       {
         "datasource": {
+          "type": "loki",
+          "uid": "c7a89e16-1795-489a-b837-a179c7adbe55"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": 0
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "__error__"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 191
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Line"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 322
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "__error_details__"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 385
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "scope_name"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 399
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 7,
+          "w": 24,
+          "x": 0,
+          "y": 25
+        },
+        "id": 8,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "12.1.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "loki",
+              "uid": "c7a89e16-1795-489a-b837-a179c7adbe55"
+            },
+            "direction": "backward",
+            "editorMode": "builder",
+            "expr": "{service_name=\"ohip-pms-processor\", environment=\"stag\"} |= `Data updated on Alice; action: ` | json",
+            "queryType": "range",
+            "refId": "A"
+          }
+        ],
+        "title": "Last Update (Log)",
+        "transformations": [
+          {
+            "id": "extractFields",
+            "options": {
+              "delimiter": ",",
+              "source": "labels"
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "Time",
+                  "Line",
+                  "labelTypes",
+                  "aliceConnectionUuid",
+                  "aliceHotelId",
+                  "aliceHotelName",
+                  "observed_timestamp",
+                  "pmsHotelCode"
+                ]
+              }
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
           "type": "elasticsearch",
           "uid": "9Pm7CqB4z"
         },
@@ -673,7 +819,7 @@
           "h": 7,
           "w": 24,
           "x": 0,
-          "y": 25
+          "y": 32
         },
         "id": 7,
         "options": {
