@@ -101,22 +101,6 @@
               "delimiter": ",",
               "source": "labels"
             }
-          },
-          {
-            "id": "filterFieldsByName",
-            "options": {
-              "include": {
-                "names": [
-                  "Time",
-                  "Line",
-                  "aliceConnectionUuid",
-                  "aliceHotelId",
-                  "aliceHotelName",
-                  "observed_timestamp",
-                  "pmsHotelCode"
-                ]
-              }
-            }
           }
         ],
         "type": "table"
