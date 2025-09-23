@@ -93,13 +93,46 @@
             "refId": "A"
           }
         ],
-        "title": "Ohip",
+        "title": "Ohip Activity",
         "transformations": [
           {
             "id": "extractFields",
             "options": {
               "delimiter": ",",
               "source": "labels"
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "Time",
+                  "Line",
+                  "aliceConnectionUuid",
+                  "aliceHotelId",
+                  "aliceHotelName",
+                  "observed_timestamp",
+                  "pmsHotelCode"
+                ]
+              }
+            }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {},
+              "includeByName": {},
+              "indexByName": {
+                "Line": 6,
+                "Time": 4,
+                "aliceConnectionUuid": 2,
+                "aliceHotelId": 3,
+                "aliceHotelName": 0,
+                "observed_timestamp": 5,
+                "pmsHotelCode": 1
+              },
+              "renameByName": {}
             }
           }
         ],
