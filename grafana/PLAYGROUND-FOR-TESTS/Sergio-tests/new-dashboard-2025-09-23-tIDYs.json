@@ -466,7 +466,7 @@
             ],
             "show": false
           },
-          "frameIndex": 1,
+          "frameIndex": 0,
           "showHeader": true
         },
         "pluginVersion": "12.1.0",
@@ -523,6 +523,84 @@
             "color": {
               "mode": "thresholds"
             },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": 0
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 32
+        },
+        "id": 6,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "frameIndex": 0,
+          "showHeader": true,
+          "sortBy": [
+            {
+              "desc": false,
+              "displayName": "{aliceConnectionUuid=\"b6e8e6dd-363f-41ba-8d17-d35479c3c224\", aliceHotelId=\"5947\", aliceHotelName=\"NON PROD - Montage Healdsburg - OHIP OCIM Test Hotel\", container_image_name=\"763386454006.dkr.ecr.us-east-1.amazonaws.com/ohip-pms-processor\", container_image_tag=\"v25.6.0.7-1-77f17bc\", detected_level=\"debug\", domain=\"integrations\", environment=\"stag\", flags=\"1\", k8s_container_name=\"ohip-pms-processor\", k8s_deployment_name=\"ohip-pms-processor\", k8s_namespace_name=\"stag\", k8s_pod_ip=\"10.40.124.73\", k8s_pod_name=\"ohip-pms-processor-57db88cdfd-r9p4w\", k8s_pod_start_time=\"2025-09-22T15:01:06Z\", observed_timestamp=\"1758569835713384495\", pmsHotelCode=\"MHB\", process_command_args=\"[\\\"/opt/java/openjdk/bin/java\\\",\\\"-XX:MaxRAMPercentage=60.0\\\",\\\"-javaagent:/app/opentelemetry-javaagent.jar\\\",\\\"-jar\\\",\\\"/app/ohip-pms-processor.jar\\\"]\", process_executable_path=\"/opt/java/openjdk/bin/java\", process_pid=\"8\", process_runtime_description=\"Eclipse Adoptium OpenJDK 64-Bit Server VM 17.0.15+6\", process_runtime_name=\"OpenJDK Runtime Environment\", process_runtime_version=\"17.0.15+6\", scope_name=\"com.alice.ohip.service.impl.ReservationServiceImpl\", service_instance_id=\"ohip-pms-processor-57db88cdfd-r9p4w\", service_name=\"ohip-pms-processor\", service_version=\"25.6.0.7\", severity_number=\"5\", severity_text=\"DEBUG\", span_id=\"50d9ab522a021068\", team=\"int\", telemetry_distro_name=\"opentelemetry-java-instrumentation\", telemetry_distro_version=\"2.20.0\", telemetry_sdk_language=\"java\", telemetry_sdk_name=\"opentelemetry\", telemetry_sdk_version=\"1.54.0\", thread_id=\"106\", thread_name=\"Async-Common-8\", trace_id=\"ef36aa29850248e339a37ed51957d7d1\"}"
+            }
+          ]
+        },
+        "pluginVersion": "12.1.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "loki",
+              "uid": "c7a89e16-1795-489a-b837-a179c7adbe55"
+            },
+            "direction": "backward",
+            "editorMode": "code",
+            "expr": "sum by (aliceHotelName) (count_over_time({service_name=\"ohip-pms-processor\"} |= `Data updated on Alice; action: `  [7d]))",
+            "hide": false,
+            "queryType": "range",
+            "refId": "A"
+          }
+        ],
+        "title": "Ohip Activity",
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "loki",
+          "uid": "c7a89e16-1795-489a-b837-a179c7adbe55"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
             "mappings": [],
             "thresholds": {
               "mode": "absolute",
@@ -541,7 +619,7 @@
           "h": 8,
           "w": 24,
           "x": 0,
-          "y": 32
+          "y": 40
         },
         "id": 2,
         "options": {
