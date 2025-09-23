@@ -305,6 +305,131 @@
               "cellOptions": {
                 "type": "auto"
               },
+              "filterable": false,
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": 0
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Time"
+              },
+              "properties": [
+                {
+                  "id": "unit",
+                  "value": "dateTimeFromNow"
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 16
+        },
+        "id": 5,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true,
+          "sortBy": [
+            {
+              "desc": true,
+              "displayName": "tsNs"
+            }
+          ]
+        },
+        "pluginVersion": "12.1.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "loki",
+              "uid": "c7a89e16-1795-489a-b837-a179c7adbe55"
+            },
+            "direction": "backward",
+            "editorMode": "code",
+            "expr": "{service_name=\"ohip-pms-processor\"} |= `Data updated on Alice; action: `",
+            "queryType": "range",
+            "refId": "A"
+          }
+        ],
+        "title": "Ohip Activity",
+        "transformations": [
+          {
+            "id": "extractFields",
+            "options": {
+              "delimiter": ",",
+              "source": "labels"
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "Time",
+                  "aliceHotelName"
+                ]
+              }
+            }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {},
+              "includeByName": {},
+              "indexByName": {
+                "Time": 1,
+                "aliceHotelName": 0
+              },
+              "renameByName": {
+                "Time": "Last Time Updated",
+                "aliceHotelName": "Hotel Name"
+              }
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "loki",
+          "uid": "c7a89e16-1795-489a-b837-a179c7adbe55"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
               "inspect": false
             },
             "mappings": [],
@@ -328,7 +453,7 @@
           "h": 8,
           "w": 24,
           "x": 0,
-          "y": 16
+          "y": 24
         },
         "id": 4,
         "options": {
@@ -372,6 +497,17 @@
               "mode": "dropNN"
             },
             "type": "reduce"
+          },
+          {
+            "datasource": {
+              "name": "Expression",
+              "type": "__expr__",
+              "uid": "__expr__"
+            },
+            "expression": "0 - $B",
+            "hide": false,
+            "refId": "C",
+            "type": "math"
           }
         ],
         "title": "Ohip Activity",
@@ -405,7 +541,7 @@
           "h": 8,
           "w": 24,
           "x": 0,
-          "y": 24
+          "y": 32
         },
         "id": 2,
         "options": {
