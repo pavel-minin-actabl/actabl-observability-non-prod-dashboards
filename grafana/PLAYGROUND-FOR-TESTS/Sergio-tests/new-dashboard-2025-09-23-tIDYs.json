@@ -121,7 +121,9 @@
           {
             "id": "organize",
             "options": {
-              "excludeByName": {},
+              "excludeByName": {
+                "observed_timestamp": true
+              },
               "includeByName": {},
               "indexByName": {
                 "Line": 6,
