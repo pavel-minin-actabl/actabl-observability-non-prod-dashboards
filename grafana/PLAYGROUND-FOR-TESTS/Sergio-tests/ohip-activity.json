@@ -473,8 +473,8 @@
       },
       {
         "datasource": {
-          "type": "loki",
-          "uid": "c7a89e16-1795-489a-b837-a179c7adbe55"
+          "type": "prometheus",
+          "uid": "ee55cp459sa9sd"
         },
         "fieldConfig": {
           "defaults": {
@@ -530,17 +530,77 @@
         "targets": [
           {
             "datasource": {
-              "type": "loki",
-              "uid": "c7a89e16-1795-489a-b837-a179c7adbe55"
+              "type": "prometheus",
+              "uid": "ee55cp459sa9sd"
             },
-            "direction": "backward",
-            "editorMode": "builder",
-            "expr": "{service_name=\"ohip-pms-processor\"} |= `Data updated on Alice; action: `",
-            "queryType": "range",
-            "refId": "A"
+            "disableTextWrap": false,
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "ohip_activity_time",
+            "format": "table",
+            "fullMetaSearch": false,
+            "includeNullMetadata": true,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "A",
+            "useBackend": false
           }
         ],
-        "title": "New",
+        "title": "Last Update",
+        "transformations": [
+          {
+            "id": "calculateField",
+            "options": {
+              "alias": "Last Updated",
+              "binary": {
+                "left": {
+                  "matcher": {
+                    "id": "byName",
+                    "options": "Value"
+                  }
+                },
+                "operator": "*",
+                "right": {
+                  "fixed": "1000"
+                }
+              },
+              "mode": "binary",
+              "reduce": {
+                "reducer": "sum"
+              }
+            }
+          },
+          {
+            "id": "convertFieldType",
+            "options": {
+              "conversions": [
+                {
+                  "destinationType": "time",
+                  "targetField": "Last Updated"
+                }
+              ],
+              "fields": {}
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "Time",
+                  "aliceHotelId",
+                  "aliceHotelName",
+                  "pmsHotelCode",
+                  "pmsUuid",
+                  "type",
+                  "Value",
+                  "Last Updated"
+                ]
+              }
+            }
+          }
+        ],
         "type": "table"
       },
       {
