@@ -341,7 +341,7 @@
             ],
             "show": false
           },
-          "frameIndex": 2,
+          "frameIndex": 1,
           "showHeader": true
         },
         "pluginVersion": "12.1.0",
@@ -503,25 +503,7 @@
     "schemaVersion": 41,
     "tags": [],
     "templating": {
-      "list": [
-        {
-          "current": {
-            "text": "",
-            "value": ""
-          },
-          "datasource": {
-            "type": "mysql",
-            "uid": "deay1kvval1c0e"
-          },
-          "definition": "DATE_FORMAT(NOW(), '%Y-%m-%d')",
-          "name": "today",
-          "options": [],
-          "query": "DATE_FORMAT(NOW(), '%Y-%m-%d')",
-          "refresh": 1,
-          "regex": "",
-          "type": "query"
-        }
-      ]
+      "list": []
     },
     "time": {
       "from": "now-7d",
