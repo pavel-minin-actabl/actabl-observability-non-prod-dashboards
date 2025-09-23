@@ -136,9 +136,134 @@
               },
               "renameByName": {}
             }
+          },
+          {
+            "id": "calculateField",
+            "options": {}
           }
         ],
         "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "loki",
+          "uid": "c7a89e16-1795-489a-b837-a179c7adbe55"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": 0
+                }
+              ]
+            },
+            "unit": "dateTimeFromNow"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 8
+        },
+        "id": 2,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "percentChangeColorMode": "standard",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
+        },
+        "pluginVersion": "12.1.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "loki",
+              "uid": "c7a89e16-1795-489a-b837-a179c7adbe55"
+            },
+            "direction": "backward",
+            "editorMode": "builder",
+            "expr": "{service_name=\"ohip-pms-processor\"} |= `Data updated on Alice; action: `",
+            "queryType": "range",
+            "refId": "A"
+          }
+        ],
+        "title": "Ohip Activity",
+        "transformations": [
+          {
+            "id": "extractFields",
+            "options": {
+              "delimiter": ",",
+              "source": "labels"
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "Time",
+                  "Line",
+                  "aliceConnectionUuid",
+                  "aliceHotelId",
+                  "aliceHotelName",
+                  "observed_timestamp",
+                  "pmsHotelCode"
+                ]
+              }
+            }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "observed_timestamp": true
+              },
+              "includeByName": {},
+              "indexByName": {
+                "Line": 6,
+                "Time": 4,
+                "aliceConnectionUuid": 2,
+                "aliceHotelId": 3,
+                "aliceHotelName": 0,
+                "observed_timestamp": 5,
+                "pmsHotelCode": 1
+              },
+              "renameByName": {}
+            }
+          },
+          {
+            "id": "calculateField",
+            "options": {
+              "mode": "reduceRow",
+              "reduce": {
+                "include": [
+                  "Time"
+                ],
+                "reducer": "lastNotNull"
+              }
+            }
+          }
+        ],
+        "type": "stat"
       }
     ],
     "preload": false,
