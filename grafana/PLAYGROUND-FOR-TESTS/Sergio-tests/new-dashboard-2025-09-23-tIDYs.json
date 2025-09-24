@@ -27,6 +27,331 @@
     "links": [],
     "panels": [
       {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 7,
+        "panels": [],
+        "title": "Ok",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "loki",
+          "uid": "c7a89e16-1795-489a-b837-a179c7adbe55"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "filterable": false,
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": 0
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Time"
+              },
+              "properties": [
+                {
+                  "id": "unit",
+                  "value": "dateTimeFromNow"
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 1
+        },
+        "id": 5,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true,
+          "sortBy": [
+            {
+              "desc": true,
+              "displayName": "tsNs"
+            }
+          ]
+        },
+        "pluginVersion": "12.1.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "loki",
+              "uid": "c7a89e16-1795-489a-b837-a179c7adbe55"
+            },
+            "direction": "backward",
+            "editorMode": "code",
+            "expr": "{service_name=\"ohip-pms-processor\"} |= `Data updated on Alice; action: `",
+            "queryType": "range",
+            "refId": "A"
+          }
+        ],
+        "title": "Last Update",
+        "transformations": [
+          {
+            "id": "extractFields",
+            "options": {
+              "delimiter": ",",
+              "source": "labels"
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "Time",
+                  "aliceHotelName"
+                ]
+              }
+            }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {},
+              "includeByName": {},
+              "indexByName": {
+                "Time": 1,
+                "aliceHotelName": 0
+              },
+              "renameByName": {
+                "Time": "Last Time Updated",
+                "aliceHotelName": "Hotel Name"
+              }
+            }
+          },
+          {
+            "id": "groupBy",
+            "options": {
+              "fields": {
+                "Hotel Name": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                },
+                "Last Time Updated": {
+                  "aggregations": [
+                    "lastNotNull"
+                  ],
+                  "operation": "aggregate"
+                }
+              }
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "loki",
+          "uid": "c7a89e16-1795-489a-b837-a179c7adbe55"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "filterable": false,
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": 0
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Time"
+              },
+              "properties": [
+                {
+                  "id": "unit",
+                  "value": "dateTimeFromNow"
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 9
+        },
+        "id": 9,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true,
+          "sortBy": [
+            {
+              "desc": true,
+              "displayName": "tsNs"
+            }
+          ]
+        },
+        "pluginVersion": "12.1.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "loki",
+              "uid": "c7a89e16-1795-489a-b837-a179c7adbe55"
+            },
+            "direction": "backward",
+            "editorMode": "code",
+            "expr": "{service_name=\"ohip-pms-processor\"} |= `Data updated on Alice; action: `",
+            "queryType": "range",
+            "refId": "A"
+          }
+        ],
+        "title": "Ohip Activity",
+        "transformations": [
+          {
+            "id": "extractFields",
+            "options": {
+              "delimiter": ",",
+              "source": "labels"
+            }
+          },
+          {
+            "id": "extractFields",
+            "options": {
+              "delimiter": ",",
+              "format": "kvp",
+              "source": "Line"
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "Time",
+                  "aliceHotelName",
+                  "action"
+                ]
+              }
+            }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {},
+              "includeByName": {},
+              "indexByName": {
+                "Time": 2,
+                "action": 1,
+                "aliceHotelName": 0
+              },
+              "renameByName": {
+                "Time": "Last Time Updated",
+                "action": "Action",
+                "aliceHotelName": "Hotel Name"
+              }
+            }
+          },
+          {
+            "id": "groupBy",
+            "options": {
+              "fields": {
+                "Hotel Name": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                },
+                "Last Time Updated": {
+                  "aggregations": [
+                    "lastNotNull"
+                  ],
+                  "operation": "aggregate"
+                },
+                "action": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                }
+              }
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 17
+        },
+        "id": 8,
+        "panels": [],
+        "title": "Test",
+        "type": "row"
+      },
+      {
         "datasource": {
           "type": "loki",
           "uid": "c7a89e16-1795-489a-b837-a179c7adbe55"
@@ -64,7 +389,7 @@
           "h": 8,
           "w": 24,
           "x": 0,
-          "y": 0
+          "y": 18
         },
         "id": 1,
         "options": {
@@ -182,7 +507,7 @@
           "h": 8,
           "w": 24,
           "x": 0,
-          "y": 8
+          "y": 26
         },
         "id": 3,
         "options": {
@@ -305,131 +630,6 @@
               "cellOptions": {
                 "type": "auto"
               },
-              "filterable": false,
-              "inspect": false
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": 0
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": [
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "Time"
-              },
-              "properties": [
-                {
-                  "id": "unit",
-                  "value": "dateTimeFromNow"
-                }
-              ]
-            }
-          ]
-        },
-        "gridPos": {
-          "h": 8,
-          "w": 24,
-          "x": 0,
-          "y": 16
-        },
-        "id": 5,
-        "options": {
-          "cellHeight": "sm",
-          "footer": {
-            "countRows": false,
-            "fields": "",
-            "reducer": [
-              "sum"
-            ],
-            "show": false
-          },
-          "showHeader": true,
-          "sortBy": [
-            {
-              "desc": true,
-              "displayName": "tsNs"
-            }
-          ]
-        },
-        "pluginVersion": "12.1.0",
-        "targets": [
-          {
-            "datasource": {
-              "type": "loki",
-              "uid": "c7a89e16-1795-489a-b837-a179c7adbe55"
-            },
-            "direction": "backward",
-            "editorMode": "code",
-            "expr": "{service_name=\"ohip-pms-processor\"} |= `Data updated on Alice; action: `",
-            "queryType": "range",
-            "refId": "A"
-          }
-        ],
-        "title": "Ohip Activity",
-        "transformations": [
-          {
-            "id": "extractFields",
-            "options": {
-              "delimiter": ",",
-              "source": "labels"
-            }
-          },
-          {
-            "id": "filterFieldsByName",
-            "options": {
-              "include": {
-                "names": [
-                  "Time",
-                  "aliceHotelName"
-                ]
-              }
-            }
-          },
-          {
-            "id": "organize",
-            "options": {
-              "excludeByName": {},
-              "includeByName": {},
-              "indexByName": {
-                "Time": 1,
-                "aliceHotelName": 0
-              },
-              "renameByName": {
-                "Time": "Last Time Updated",
-                "aliceHotelName": "Hotel Name"
-              }
-            }
-          }
-        ],
-        "type": "table"
-      },
-      {
-        "datasource": {
-          "type": "loki",
-          "uid": "c7a89e16-1795-489a-b837-a179c7adbe55"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "custom": {
-              "align": "auto",
-              "cellOptions": {
-                "type": "auto"
-              },
               "inspect": false
             },
             "mappings": [],
@@ -453,7 +653,7 @@
           "h": 8,
           "w": 24,
           "x": 0,
-          "y": 24
+          "y": 34
         },
         "id": 4,
         "options": {
@@ -521,14 +721,40 @@
         "fieldConfig": {
           "defaults": {
             "color": {
-              "mode": "thresholds"
+              "mode": "palette-classic"
             },
             "custom": {
-              "align": "auto",
-              "cellOptions": {
-                "type": "auto"
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "barWidthFactor": 0.6,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
               },
-              "inspect": false
+              "insertNulls": false,
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
             },
             "mappings": [],
             "thresholds": {
@@ -551,27 +777,21 @@
           "h": 8,
           "w": 24,
           "x": 0,
-          "y": 32
+          "y": 42
         },
         "id": 6,
         "options": {
-          "cellHeight": "sm",
-          "footer": {
-            "countRows": false,
-            "fields": "",
-            "reducer": [
-              "sum"
-            ],
-            "show": false
+          "legend": {
+            "calcs": [],
+            "displayMode": "hidden",
+            "placement": "right",
+            "showLegend": false
           },
-          "frameIndex": 0,
-          "showHeader": true,
-          "sortBy": [
-            {
-              "desc": false,
-              "displayName": "{aliceConnectionUuid=\"b6e8e6dd-363f-41ba-8d17-d35479c3c224\", aliceHotelId=\"5947\", aliceHotelName=\"NON PROD - Montage Healdsburg - OHIP OCIM Test Hotel\", container_image_name=\"763386454006.dkr.ecr.us-east-1.amazonaws.com/ohip-pms-processor\", container_image_tag=\"v25.6.0.7-1-77f17bc\", detected_level=\"debug\", domain=\"integrations\", environment=\"stag\", flags=\"1\", k8s_container_name=\"ohip-pms-processor\", k8s_deployment_name=\"ohip-pms-processor\", k8s_namespace_name=\"stag\", k8s_pod_ip=\"10.40.124.73\", k8s_pod_name=\"ohip-pms-processor-57db88cdfd-r9p4w\", k8s_pod_start_time=\"2025-09-22T15:01:06Z\", observed_timestamp=\"1758569835713384495\", pmsHotelCode=\"MHB\", process_command_args=\"[\\\"/opt/java/openjdk/bin/java\\\",\\\"-XX:MaxRAMPercentage=60.0\\\",\\\"-javaagent:/app/opentelemetry-javaagent.jar\\\",\\\"-jar\\\",\\\"/app/ohip-pms-processor.jar\\\"]\", process_executable_path=\"/opt/java/openjdk/bin/java\", process_pid=\"8\", process_runtime_description=\"Eclipse Adoptium OpenJDK 64-Bit Server VM 17.0.15+6\", process_runtime_name=\"OpenJDK Runtime Environment\", process_runtime_version=\"17.0.15+6\", scope_name=\"com.alice.ohip.service.impl.ReservationServiceImpl\", service_instance_id=\"ohip-pms-processor-57db88cdfd-r9p4w\", service_name=\"ohip-pms-processor\", service_version=\"25.6.0.7\", severity_number=\"5\", severity_text=\"DEBUG\", span_id=\"50d9ab522a021068\", team=\"int\", telemetry_distro_name=\"opentelemetry-java-instrumentation\", telemetry_distro_version=\"2.20.0\", telemetry_sdk_language=\"java\", telemetry_sdk_name=\"opentelemetry\", telemetry_sdk_version=\"1.54.0\", thread_id=\"106\", thread_name=\"Async-Common-8\", trace_id=\"ef36aa29850248e339a37ed51957d7d1\"}"
-            }
-          ]
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "single",
+            "sort": "none"
+          }
         },
         "pluginVersion": "12.1.0",
         "targets": [
@@ -584,12 +804,13 @@
             "editorMode": "code",
             "expr": "sum by (aliceHotelName) (count_over_time({service_name=\"ohip-pms-processor\"} |= `Data updated on Alice; action: `  [7d]))",
             "hide": false,
+            "legendFormat": "{{aliceHotelName}}",
             "queryType": "range",
             "refId": "A"
           }
         ],
         "title": "Ohip Activity",
-        "type": "table"
+        "type": "timeseries"
       },
       {
         "datasource": {
@@ -619,7 +840,7 @@
           "h": 8,
           "w": 24,
           "x": 0,
-          "y": 40
+          "y": 50
         },
         "id": 2,
         "options": {
