@@ -901,7 +901,7 @@
             },
             "direction": "backward",
             "editorMode": "code",
-            "expr": "count_over_time({service_name=\"ohip-pms-processor\"} |= `Data updated on Alice; action: ` | pmsHotelCode = `MHB` [7d])",
+            "expr": "count_over_time({service_name=\"ohip-pms-processor\"} |= `Data updated on Alice; action: ` | pmsHotelCode = `MHB` [$__auto])",
             "hide": false,
             "legendFormat": "{{aliceHotelName}}",
             "queryType": "range",
@@ -1153,7 +1153,7 @@
       "list": []
     },
     "time": {
-      "from": "now-7d",
+      "from": "now-3h",
       "to": "now"
     },
     "timepicker": {},
