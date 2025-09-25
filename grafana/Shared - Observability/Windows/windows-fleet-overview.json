@@ -1391,16 +1391,14 @@
     ],
     "preload": false,
     "refresh": "30s",
-    "schemaVersion": 42,
-    "tags": [
-      "windows-exporter-integration"
-    ],
+    "schemaVersion": 41,
+    "tags": [],
     "templating": {
       "list": [
         {
           "current": {
-            "text": "grafanacloud-actabl-prom",
-            "value": "grafanacloud-prom"
+            "text": "dev-us-east-1",
+            "value": "T0EL4G7Vz"
           },
           "label": "Prometheus data source",
           "name": "prometheus_datasource",
@@ -1452,8 +1450,8 @@
         },
         {
           "current": {
-            "text": "grafanacloud-actabl-logs",
-            "value": "grafanacloud-logs"
+            "text": "logs",
+            "value": "c7a89e16-1795-489a-b837-a179c7adbe55"
           },
           "hide": 2,
           "label": "Loki data source",
